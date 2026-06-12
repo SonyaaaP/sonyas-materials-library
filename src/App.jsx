@@ -101,7 +101,7 @@ position: "relative"
 {type && <div style={{ marginTop: 6 }}><Badge color={color} label={type.name} /></div>}
 </div>
 {mat.show_r_value && rVal != null && (
-<div style={{ textAlign: "right", minWidth: 70 }}>
+<div style={{ textAlign: "right", minWidth: 70, marginRight: 22 }}>
 <div style={{ fontSize: 24, fontWeight: 800, color, lineHeight: 1 }}>{fmt(rVal, 3)}</div>
 <div style={{ fontSize: 11, color: "var(--muted)" }}>{rUnitLabel(system)}</div>
 </div>
@@ -135,7 +135,7 @@ const num = parseFloat(value);
 if (isNaN(num)) return value;
 if (fromUnit === toUnit) return value;
 if (fromUnit === "in" && toUnit === "mm") return (num * IN_TO_MM).toFixed(1);
-if (fromUnit === "mm" && toUnit === "in") return (num / IN_TO_MM).toFixed(2);
+if (fromUnit === "mm" && toUnit === "in") return (num / IN_TO_MM).toFixed(4);
 return value;
 }
 
@@ -731,13 +731,13 @@ onSelect={m => { setDetail(m); setView("detail"); }}
 {/* Calculator */}
 {materials.length > 0 && (
 <div style={{
-marginTop: 28, background: "#1A1A1A", borderRadius: 12,
-padding: "18px 22px", color: "#FFF"
+marginTop: 28, background: "var(--card)", borderRadius: 12,
+padding: "18px 22px", color: "var(--text)", border: "1px solid var(--border)"
 }}>
 <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 12 }}>⚡ R-value calculator</div>
 <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "flex-end" }}>
 <select value={calcMat} onChange={e => setCalcMat(e.target.value)}
-style={{ flex: 2, minWidth: 160, padding: "8px 12px", borderRadius: 8, background: "#2A2A2A", color: "#FFF", border: "1px solid #444", fontSize: 13 }}>
+style={{ flex: 2, minWidth: 160, padding: "8px 12px", borderRadius: 8, background: "var(--bg)", color: "var(--text)", border: "1px solid var(--border)", fontSize: 13 }}>
 <option value="">Select material...</option>
 {materials.filter(m => m.r_value_per_inch != null).map(m => (
 <option key={m.id} value={m.id}>{m.name}</option>
@@ -746,17 +746,19 @@ style={{ flex: 2, minWidth: 160, padding: "8px 12px", borderRadius: 8, backgroun
 <input type="number" min="0" step={system === "imperial" ? "0.5" : "5"} value={calcThickness}
 onChange={e => setCalcThickness(e.target.value)}
 placeholder={system === "imperial" ? "inches" : "mm"}
-style={{ width: 90, padding: "8px 12px", borderRadius: 8, background: "#2A2A2A", color: "#FFF", border: "1px solid #444", fontSize: 13 }} />
+style={{ width: 90, padding: "8px 12px", borderRadius: 8, background: "var(--bg)", color: "var(--text)", border: "1px solid var(--border)", fontSize: 13 }} />
 <div style={{
-padding: "8px 18px", background: calcResult != null ? "#2D6A4F" : "#333",
+padding: "8px 18px", background: calcResult != null ? "#2D6A4F" : "var(--bg)",
+color: calcResult != null ? "#FFF" : "var(--muted)",
+border: calcResult != null ? "none" : "1px solid var(--border)",
 borderRadius: 8, fontWeight: 800, fontSize: 18, minWidth: 110, textAlign: "center", transition: "background 0.2s"
 }}>
 {calcResult != null
 ? `${system === "imperial" ? "R" : "RSI"}-${fmt(calcResult, 2)}`
-: <span style={{ fontSize: 13, fontWeight: 400, color: "#666" }}>result</span>}
+: <span style={{ fontSize: 13, fontWeight: 400 }}>result</span>}
 </div>
 </div>
-<div style={{ fontSize: 11, color: "#777", marginTop: 8 }}>
+<div style={{ fontSize: 11, color: "var(--muted)", marginTop: 8 }}>
 Enter thickness in {system === "imperial" ? "inches" : "millimeters"} to get the total {system === "imperial" ? "R-value" : "RSI"} of that layer.
 </div>
 </div>

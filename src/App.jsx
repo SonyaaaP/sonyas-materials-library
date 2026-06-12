@@ -394,6 +394,13 @@ useEffect(() => {
 loadAll();
 }, []);
 
+// Make the page background (outside our container) match the theme
+useEffect(() => {
+document.body.style.margin = "0";
+document.body.style.background = dark ? "#0F0F0F" : "#F7F6F3";
+document.documentElement.style.background = dark ? "#0F0F0F" : "#F7F6F3";
+}, [dark]);
+
 const loadAll = async () => {
 setLoading(true);
 const [{ data: mats, error: mErr }, { data: typs, error: tErr }, { data: docs }] = await Promise.all([
